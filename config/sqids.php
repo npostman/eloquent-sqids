@@ -34,13 +34,10 @@ return [
             'blocklist' => Sqids::DEFAULT_BLOCKLIST,
         ],
 
-        'alternative' => [
-            'alphabet' => 'your-alphabets',
-            'minLength' => 'your-length-integer',
-            'blocklist' => [
-                'your',
-                'blocklist'
-            ],
+        'custom' => [
+            'alphabet' => 'abcde',
+            'minLength' => 10,
+            'blocklist' => Sqids::DEFAULT_BLOCKLIST,
         ],
 
     ],
