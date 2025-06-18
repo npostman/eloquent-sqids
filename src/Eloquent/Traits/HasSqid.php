@@ -27,7 +27,8 @@ trait HasSqid
 	 */
 	public function sqidToId(string $sqid): int|null
 	{
-		return Sqids::decode($sqid)[0] ?? null;
+		return Sqids::connection($this->getSqidsConnection())
+            ->decode($sqid)[0] ?? null;
 	}
 
 	/**
@@ -35,11 +36,17 @@ trait HasSqid
 	 */
 	public function idToSqid(int $id): string|null
 	{
-		return Sqids::encode([$id]);
+		return Sqids::connection($this->getSqidsConnection())
+            ->encode([$id]);
 	}
 
 	protected function getSqidAttribute()
     {
         return $this->sqid();
     }
+
+    public function getSqidsConnection()
+	{
+		return config('sqids.default');
+	}
 }

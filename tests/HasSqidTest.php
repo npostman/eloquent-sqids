@@ -4,6 +4,7 @@ namespace ErikSulymosi\EloquentSqids\Tests;
 
 use ErikSulymosi\EloquentSqids\Facades\Sqids;
 use ErikSulymosi\EloquentSqids\Tests\Models\Item;
+use ErikSulymosi\EloquentSqids\Tests\Models\ItemWithCustomSqidsConnection;
 use Illuminate\Database\Eloquent\ModelNotFoundException;
 
 it('can encode the model id to its sqid', function ()
@@ -93,4 +94,11 @@ it('can handle invalid sqids properly', function ()
 
 	$this->expectException(ModelNotFoundException::class);
 	Item::findBySqidOrFail('not a sqid');
+});
+
+it('can handle custom sqids connection for model', function ()
+{
+	$this->assertEquals((new ItemWithCustomSqidsConnection)->getSqidsConnection(), 'custom');
+
+    $this->assertEquals('bdcdecabad', (new ItemWithCustomSqidsConnection)->idToSqid(1));
 });
