@@ -8,15 +8,15 @@ use Illuminate\Database\Eloquent\Model;
 
 class ItemWithCustomSqidsConnection extends Model
 {
-	use HasSqid;
-	use SqidRouting;
+    use HasSqid;
+    use SqidRouting;
 
-	protected $guarded = [];
+    protected $guarded = [];
 
-	protected $table = 'items';
+    protected $table = 'items';
 
-	public function getSqidsConnection()
-	{
-		return 'custom';
-	}
+    public function getSqidsConnection()
+    {
+        return 'custom';
+    }
 }
