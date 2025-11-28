@@ -19,4 +19,9 @@ class ItemWithCustomSqidsConnection extends Model
     {
         return 'custom';
     }
+
+    protected static function newFactory()
+    {
+        return new ItemWithCustomSqidsConnectionFactory();
+    }
 }

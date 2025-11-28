@@ -12,6 +12,18 @@ use Illuminate\Database\Eloquent\Model;
  */
 trait HasSqid
 {
+    protected static bool $useStrictSqids = false;
+
+    public static function setStrictSqids(bool $strictSqids = true): void
+    {
+        static::$useStrictSqids = $strictSqids;
+    }
+
+    public static function usesStrictSqids(): bool
+    {
+        return static::$useStrictSqids;
+    }
+
     public static function bootHasSqid()
     {
         static::addGlobalScope(new SqidScope);
@@ -27,8 +39,21 @@ trait HasSqid
      */
     public function sqidToId(string $sqid): int|null
     {
-        return Sqids::connection($this->getSqidsConnection())
-            ->decode($sqid)[0] ?? null;
+        $sqids = Sqids::connection($this->getSqidsConnection());
+        $id = $sqids->decode($sqid)[0] ?? null;
+
+        if (is_null($id)) {
+            return null;
+        }
+
+        if (
+            static::usesStrictSqids() &&
+            $sqids->encode([$id]) !== $sqid
+        ) {
+            return null;
+        }
+
+        return $id;
     }
 
     /**
